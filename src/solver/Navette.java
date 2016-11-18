@@ -7,6 +7,11 @@ public class Navette extends Transition {
     private TypeNavette type;
     private double duree;
 
+    public Navette(int numero, String nom, Point depart, Point arrivee, TypeNavette type, double duree) {
+        super(numero, nom, depart, arrivee);
+        this.type = type;
+        this.duree = duree;
+    }
 
     @Override
     public double temps() {

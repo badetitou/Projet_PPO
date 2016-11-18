@@ -9,13 +9,24 @@ public abstract class Transition {
     private Point depart;
     private Point arrivee;
 
-    public double denivele(){
-        return Math.abs(depart.getAltitude()-arrivee.getAltitude());
+    public Transition(int numero, String nom, Point depart, Point arrivee) {
+        this.numero = numero;
+        this.nom = nom;
+        this.depart = depart;
+        this.arrivee = arrivee;
+    }
+
+    public Point getArrivee() {
+        return arrivee;
+    }
+
+    protected double denivele() {
+        return Math.abs(depart.getAltitude() - arrivee.getAltitude());
     }
 
     /**
-     *
      * @return le temps entre depart et arrivee
      */
     public abstract double temps();
+
 }

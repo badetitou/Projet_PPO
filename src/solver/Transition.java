@@ -1,14 +1,33 @@
 package solver;
 
 /**
- * Created by badetitou on 16/11/16.
+ * La classe abstract Transition represente une transition generique entre deux points
  */
 public abstract class Transition {
+    /**
+     * numero de la transition
+     */
     private int numero;
+    /**
+     * nom eventuel de la descente
+     */
     private String nom;
+    /**
+     * point de depart de la transition
+     */
     private Point depart;
+    /**
+     * point d'arriver de la transition
+     */
     private Point arrivee;
 
+    /**
+     *
+     * @param numero numero de la descente
+     * @param nom nom eventuel de la descente
+     * @param depart point de depart de la transition
+     * @param arrivee point d'arriver de la transition
+     */
     public Transition(int numero, String nom, Point depart, Point arrivee) {
         this.numero = numero;
         this.nom = nom;
@@ -16,10 +35,18 @@ public abstract class Transition {
         this.arrivee = arrivee;
     }
 
+    /**
+     *
+     * @return le point d'arriver de la transition
+     */
     public Point getArrivee() {
         return arrivee;
     }
 
+    /**
+     *
+     * @return le devinele entre le point de depart et d'arrivee (toujours en absolu)
+     */
     protected double denivele() {
         return Math.abs(depart.getAltitude() - arrivee.getAltitude());
     }

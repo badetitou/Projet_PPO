@@ -1,8 +1,5 @@
 package solver;
 
-/**
- * Created by badetitou on 16/11/16.
- */
-public enum TypeDescente {
+private enum TypeDescente {
     V, B, R, N
 }

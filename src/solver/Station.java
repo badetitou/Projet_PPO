@@ -5,9 +5,6 @@ import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
 
-/**
- * Created by badetitou on 16/11/16.
- */
 public class Station {
 
     /**
@@ -20,7 +17,13 @@ public class Station {
      */
     public static boolean TEMPS_REEL = false;
 
+    /**
+     * L'ensemble des points de la station
+     */
     private List<Point> points;
+    /**
+     * L'ensemble des transitions de la station
+     */
     private Map<Point, List<Transition>> transitions;
 
     public Station(){
@@ -28,6 +31,10 @@ public class Station {
         transitions = new HashMap<>();
     }
 
+    /**
+     * Ajoute un point à la station
+     * @param p le point à ajouter à la station
+     */
     public void addPoint(Point p){
         /*if (points.contains(p)) Demander si verification de l'ajout d'un meme point
             throw*/
@@ -35,8 +42,12 @@ public class Station {
         transitions.put(p, new ArrayList<>());
     }
 
-    public void addTransitionToPoint(Transition t, Point p){
-        transitions.get(p).add(t);
+    /**
+     * Ajoute une transition à la station
+     * @param t la transition à ajouter
+     */
+    public void addTransition(Transition t){
+        transitions.get(t.getDepart()).add(t);
     }
 
     /**

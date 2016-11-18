@@ -1,5 +1,5 @@
 package solver;
 
-private enum TypeDescente {
+public enum TypeDescente {
     V, B, R, N
 }

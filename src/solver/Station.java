@@ -13,12 +13,12 @@ public class Station {
     /**
      * En secondes
      */
-    public static final double MAX_WAITING = 10.0;
+    static final double MAX_WAITING = 10.0;
 
     /**
      * Option sur l'utilisation du temps reel ou non
      */
-    public static boolean TEMPS_REEL = false;
+    static boolean TEMPS_REEL = false;
 
     /**
      * L'ensemble des points de la station
@@ -42,7 +42,7 @@ public class Station {
         /*if (points.contains(p)) Demander si verification de l'ajout d'un meme point
             throw*/
         points.add(p);
-        transitions.put(p, new ArrayList<>());
+        transitions.put(p, new ArrayList<Transition>());
     }
 
     /**

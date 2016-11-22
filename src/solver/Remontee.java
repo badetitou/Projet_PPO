@@ -7,7 +7,7 @@ public class Remontee extends Transition {
     /**
      * type correspond au type de remontee, teleski etc...
      */
-    private TypePiste type;
+    private TypeRemontee type;
     /**
      * duree fixe en seconde correspondant a la phase de controle et d'installation de l'utilisateur
      */
@@ -27,7 +27,7 @@ public class Remontee extends Transition {
      * @param duree duree fixe en seconde correspondant a la phase de controle et d'installation de l'utilisateur
      * @param vitesse vitesse est le temps moyen en secondes pour monter 100m de denivele
      */
-    public Remontee(int numero, String nom, Point depart, Point arrivee, TypePiste type, double duree, double vitesse) {
+    public Remontee(int numero, String nom, Point depart, Point arrivee, TypeRemontee type, double duree, double vitesse) {
         super(numero, nom, depart, arrivee);
         this.type = type;
         this.duree = duree;

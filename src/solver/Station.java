@@ -92,7 +92,8 @@ public class Station {
         }
     }
 
-    private List<Transition> calculTempsPartiel(List<Transition> result, Map<Point, Transition> pere, Point a, Point b){
+    private List<Transition> selectTransitions(Map<Point, Transition> pere, Point a, Point b){
+        List<Transition> result = new ArrayList<>();
         Point tmp = b;
         while(!pere.get(tmp).getDepart().equals(a)) {
             result.add(0,pere.get(tmp));
@@ -118,7 +119,6 @@ public class Station {
         Map<Point, Boolean> mark = new HashMap<>();
         Map<Point, Double> potentiel = new HashMap<>();
         Map<Point, Transition> pere = new HashMap<>();
-        List<Transition> result = new ArrayList<>();
         //initialisation
         initDijkstra(mark, potentiel, pere);
         potentiel.put(a,0.0);
@@ -128,7 +128,6 @@ public class Station {
         /* On cree une liste de transition, qui regroupe de toutes les transition de a vers b
         Celle-ci est stockée dans result
          */
-        calculTempsPartiel(result, pere,a,b);
-        return result;
+        return selectTransitions(pere,a,b);
     }
 }

@@ -1,7 +1,7 @@
 package solver;
 
 /**
- * Created by badetitou on 23/11/16.
+ * Generalisation de Transition.
  */
 public abstract class Transport extends Transition {
 

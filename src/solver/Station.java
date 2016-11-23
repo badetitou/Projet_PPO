@@ -67,24 +67,26 @@ public class Station {
         }
     }
     private void PlusCourtChemin(Map<Point, Boolean> mark, Map<Point, Double> potentiel, Map<Point, Transition> pere, boolean end){
-        Point courant=null;
-        end = true;
-        double potentielCourant = Double.MAX_VALUE;
-        courant = null;
-        for (Point p : points){
-            if (!mark.get(p) && potentiel.get(p) < potentielCourant){
-                courant = p;
-                potentielCourant = potentiel.get(p);
+        while(!end) {
+            Point courant = null;
+            end = true;
+            double potentielCourant = Double.MAX_VALUE;
+            courant = null;
+            for (Point p : points) {
+                if (!mark.get(p) && potentiel.get(p) < potentielCourant) {
+                    courant = p;
+                    potentielCourant = potentiel.get(p);
+                }
             }
-        }
-        // Si nouveau point trouve, recherche des nouveaux potentiels
-        if (courant != null){
-            end = false;
-            mark.put(courant, true);
-            for(Transition t : transitions.get(courant)){
-                if (potentiel.get(courant) + t.temps() < potentiel.get(t.getArrivee())){
-                    potentiel.put(t.getArrivee(), potentiel.get(courant) + t.temps());
-                    pere.put(t.getArrivee(), t);
+            // Si nouveau point trouve, recherche des nouveaux potentiels
+            if (courant != null) {
+                end = false;
+                mark.put(courant, true);
+                for (Transition t : transitions.get(courant)) {
+                    if (potentiel.get(courant) + t.temps() < potentiel.get(t.getArrivee())) {
+                        potentiel.put(t.getArrivee(), potentiel.get(courant) + t.temps());
+                        pere.put(t.getArrivee(), t);
+                    }
                 }
             }
         }
@@ -121,11 +123,8 @@ public class Station {
         initDijkstra(mark, potentiel, pere);
         potentiel.put(a,0.0);
         pere.put(a, null);
-
-        while(!end){
-            // recherche du nouveau point a explorer
-            PlusCourtChemin(mark,potentiel,pere,end);
-        }
+        // recherche du nouveau point a explorer
+        PlusCourtChemin(mark,potentiel,pere,end);
         /* On cree une liste de transition, qui regroupe de toutes les transition de a vers b
         Celle-ci est stockée dans result
          */

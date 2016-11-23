@@ -66,7 +66,7 @@ public class Station {
             pere.put(p, null);
         }
     }
-    private void PlusCourtChemin(Map<Point, Boolean> mark, Map<Point, Double> potentiel, Map<Point, Transition> pere, boolean end){
+    private void plusCourtChemin(Map<Point, Boolean> mark, Map<Point, Double> potentiel, Map<Point, Transition> pere, boolean end){
         while(!end) {
             Point courant = null;
             end = true;
@@ -124,7 +124,7 @@ public class Station {
         potentiel.put(a,0.0);
         pere.put(a, null);
         // recherche du nouveau point a explorer
-        PlusCourtChemin(mark,potentiel,pere,end);
+        plusCourtChemin(mark,potentiel,pere,end);
         /* On cree une liste de transition, qui regroupe de toutes les transition de a vers b
         Celle-ci est stockée dans result
          */

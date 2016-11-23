@@ -67,6 +67,7 @@ public class Station {
         }
     }
     private void PlusCourtChemin(Map<Point, Boolean> mark, Map<Point, Double> potentiel, Map<Point, Transition> pere, boolean end){
+        Point courant=null;
         end = true;
         double potentielCourant = Double.MAX_VALUE;
         courant = null;
@@ -89,11 +90,13 @@ public class Station {
         }
     }
 
-    private List<Transition> calculTempsPartiel(List<Transition> result, Map<Point, Transition> pere){
+    private List<Transition> calculTempsPartiel(List<Transition> result, Map<Point, Transition> pere, Point a, Point b){
+        Point tmp = b;
         while(!pere.get(tmp).getDepart().equals(a)) {
             result.add(0,pere.get(tmp));
             tmp = pere.get(tmp).getDepart();
         }
+        result.add(0, pere.get(tmp));
         return result;
     }
 
@@ -109,13 +112,11 @@ public class Station {
      */
     public List<Transition> calculTemps(Point a, Point b){
         // Declaration
-        Point courant;
         boolean end = false;
         Map<Point, Boolean> mark = new HashMap<>();
         Map<Point, Double> potentiel = new HashMap<>();
         Map<Point, Transition> pere = new HashMap<>();
         List<Transition> result = new ArrayList<>();
-        Point tmp = b;
         //initialisation
         initDijkstra(mark, potentiel, pere);
         potentiel.put(a,0.0);
@@ -123,13 +124,12 @@ public class Station {
 
         while(!end){
             // recherche du nouveau point a explorer
-            PlusCourtChemin(mark,potentiel,pere,end)
+            PlusCourtChemin(mark,potentiel,pere,end);
         }
         /* On cree une liste de transition, qui regroupe de toutes les transition de a vers b
         Celle-ci est stockée dans result
          */
-        calculTempsPartiel(result, pere);
-        result.add(0, pere.get(tmp));
+        calculTempsPartiel(result, pere,a,b);
         return result;
     }
 }

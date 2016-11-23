@@ -3,15 +3,12 @@ package solver;
 /**
  * Classe Remontee represente une transition de type Remontee
  */
-public class Remontee extends Transition {
+public class Remontee extends Transport {
     /**
      * type correspond au type de remontee, teleski etc...
      */
     private TypeRemontee type;
-    /**
-     * duree fixe en seconde correspondant a la phase de controle et d'installation de l'utilisateur
-     */
-    private double duree;
+
     /**
      * vitesse est le temps moyen en secondes pour monter 100m de denivele
      */
@@ -28,9 +25,8 @@ public class Remontee extends Transition {
      * @param vitesse vitesse est le temps moyen en secondes pour monter 100m de denivele
      */
     public Remontee(int numero, String nom, Point depart, Point arrivee, TypeRemontee type, double duree, double vitesse) {
-        super(numero, nom, depart, arrivee);
+        super(numero, nom, depart, arrivee, duree);
         this.type = type;
-        this.duree = duree;
         this.vitesse = vitesse;
     }
 

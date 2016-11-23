@@ -17,7 +17,7 @@ class Test {
 
         station.addTransition(new Descente(1,"piste canard", a,b, TypeDescente.V, 100));
         station.addTransition(new Descente(2,"piste chevreuil", b,c, TypeDescente.B, 100));
-        station.addTransition(new Descente(3,"piste kamasutra", a,d, TypeDescente.N, 50));
+        station.addTransition(new Descente(3,"piste kamasutra", a,d, TypeDescente.N, 1000));
         station.addTransition(new Descente(4,"piste redon", d,c, TypeDescente.N, 0));
 
         for (Transition t: station.calculTemps(a, c)){

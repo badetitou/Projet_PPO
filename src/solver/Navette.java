@@ -3,15 +3,11 @@ package solver;
 /**
  * classe Navette represente une transition de type descente
  */
-public class Navette extends Transition {
+public class Navette extends Transport {
     /**
      * type de Navette : bus, metro etc...
      */
     private TypeNavette type;
-    /**
-     * duree du trajet en seconde
-     */
-    private double duree;
 
     /**
      *
@@ -23,9 +19,8 @@ public class Navette extends Transition {
      * @param duree duree du trajet en seconde
      */
     public Navette(int numero, String nom, Point depart, Point arrivee, TypeNavette type, double duree) {
-        super(numero, nom, depart, arrivee);
+        super(numero, nom, depart, arrivee, duree);
         this.type = type;
-        this.duree = duree;
     }
 
     /**

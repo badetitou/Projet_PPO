@@ -66,6 +66,40 @@ public class Station {
             pere.put(p, null);
         }
     }
+    private void PlusCourtChemin(Map<Point, Boolean> mark, Map<Point, Double> potentiel, Map<Point, Transition> pere, boolean end){
+        end = true;
+        double potentielCourant = Double.MAX_VALUE;
+        courant = null;
+        for (Point p : points){
+            if (!mark.get(p) && potentiel.get(p) < potentielCourant){
+                courant = p;
+                potentielCourant = potentiel.get(p);
+            }
+        }
+        // Si nouveau point trouve, recherche des nouveaux potentiels
+        if (courant != null){
+            end = false;
+            mark.put(courant, true);
+            for(Transition t : transitions.get(courant)){
+                if (potentiel.get(courant) + t.temps() < potentiel.get(t.getArrivee())){
+                    potentiel.put(t.getArrivee(), potentiel.get(courant) + t.temps());
+                    pere.put(t.getArrivee(), t);
+                }
+            }
+        }
+    }
+
+    private List<Transition> calculTempsPartiel(List<Transition> result, Map<Point, Transition> pere){
+        while(!pere.get(tmp).getDepart().equals(a)) {
+            result.add(0,pere.get(tmp));
+            tmp = pere.get(tmp).getDepart();
+        }
+        return result;
+    }
+
+
+
+
 
     /**
      * utilise l'algorithme de Dijkstra pour trouver le plus court chemin entre le point a et b
@@ -80,7 +114,8 @@ public class Station {
         Map<Point, Boolean> mark = new HashMap<>();
         Map<Point, Double> potentiel = new HashMap<>();
         Map<Point, Transition> pere = new HashMap<>();
-
+        List<Transition> result = new ArrayList<>();
+        Point tmp = b;
         //initialisation
         initDijkstra(mark, potentiel, pere);
         potentiel.put(a,0.0);
@@ -88,35 +123,12 @@ public class Station {
 
         while(!end){
             // recherche du nouveau point a explorer
-            end = true;
-            double potentielCourant = Double.MAX_VALUE;
-            courant = null;
-            for (Point p : points){
-                if (!mark.get(p) && potentiel.get(p) < potentielCourant){
-                    courant = p;
-                    potentielCourant = potentiel.get(p);
-                }
-            }
-            // Si nouveau point trouve, recherche des nouveaux potentiels
-            if (courant != null){
-                end = false;
-                mark.put(courant, true);
-                for(Transition t : transitions.get(courant)){
-                    if (potentiel.get(courant) + t.temps() < potentiel.get(t.getArrivee())){
-                        potentiel.put(t.getArrivee(), potentiel.get(courant) + t.temps());
-                        pere.put(t.getArrivee(), t);
-                    }
-                }
-            }
+            PlusCourtChemin(mark,potentiel,pere,end)
         }
-        /* le potentiel minimum entre a et b est stockee dans potentiel b
+        /* On cree une liste de transition, qui regroupe de toutes les transition de a vers b
+        Celle-ci est stockée dans result
          */
-        List<Transition> result = new ArrayList<>();
-        Point tmp = b;
-        while(!pere.get(tmp).getDepart().equals(a)) {
-            result.add(0,pere.get(tmp));
-            tmp = pere.get(tmp).getDepart();
-        }
+        calculTempsPartiel(result, pere);
         result.add(0, pere.get(tmp));
         return result;
     }

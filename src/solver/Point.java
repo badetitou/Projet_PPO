@@ -37,4 +37,9 @@ public class Point {
     public double getAltitude(){
         return altitude;
     }
+
+    @Override
+    public String toString(){
+        return lieu;
+    }
 }

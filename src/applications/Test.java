@@ -1,9 +1,6 @@
 package applications;
 
-import solver.Descente;
-import solver.Point;
-import solver.Station;
-import solver.TypeDescente;
+import solver.*;
 
 class Test {
     public static void main(String args[]){
@@ -20,9 +17,11 @@ class Test {
 
         station.addTransition(new Descente(1,"piste canard", a,b, TypeDescente.V, 100));
         station.addTransition(new Descente(2,"piste chevreuil", b,c, TypeDescente.B, 100));
-        station.addTransition(new Descente(3,"piste kamasutra", a,d, TypeDescente.N, 200));
+        station.addTransition(new Descente(3,"piste kamasutra", a,d, TypeDescente.N, 50));
         station.addTransition(new Descente(4,"piste redon", d,c, TypeDescente.N, 0));
 
-        System.out.println(station.calculTemps(a,c));
+        for (Transition t: station.calculTemps(a, c)){
+            System.out.println(t.getDepart() + " --> " + t.getArrivee());
+        }
     }
 }

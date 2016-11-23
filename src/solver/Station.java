@@ -59,7 +59,7 @@ public class Station {
      * @param potentiel Map de point vers potentiel initialise a Double.MAX_VALUE
      * @param pere Map de point vers point, initialise a null
      */
-    private void initDijkstra(Map<Point, Boolean> mark, Map<Point, Double> potentiel, Map<Point, Point> pere){
+    private void initDijkstra(Map<Point, Boolean> mark, Map<Point, Double> potentiel, Map<Point, Transition> pere){
         for (Point p : points) {
             mark.put(p, false);
             potentiel.put(p, Double.MAX_VALUE);
@@ -113,11 +113,11 @@ public class Station {
          */
         List<Transition> result = new ArrayList<>();
         Point tmp = b;
-        while(!pere.get(tmp).equals(a)) {
-            result.add(pere.get(tmp));
+        while(!pere.get(tmp).getDepart().equals(a)) {
+            result.add(0,pere.get(tmp));
             tmp = pere.get(tmp).getDepart();
         }
-
+        result.add(0, pere.get(tmp));
         return result;
     }
 }

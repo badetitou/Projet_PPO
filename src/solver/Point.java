@@ -3,7 +3,7 @@ package solver;
 /**
  * Classe Poin definie un point
  */
-public class Point {
+public abstract class Point {
 
     /**
      * numero identifie un point de maniere unique

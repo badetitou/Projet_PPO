@@ -45,7 +45,7 @@ public abstract class Transition {
 
     /**
      *
-     * @returnle le point de depart de la transition
+     * @return le le point de depart de la transition
      */
     public Point getDepart() {
         return depart;

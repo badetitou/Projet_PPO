@@ -73,18 +73,18 @@ public class Station {
      * @param b Le point d'arrivee
      * @return le temps pour aller du point a au point b, s'il n'y a pas de chemin entre a et b, la valeur retourner sera Double.MAX_VALUE
      */
-    public double calculTemps(Point a, Point b){
+    public List<Transition> calculTemps(Point a, Point b){
         // Declaration
         Point courant;
         boolean end = false;
         Map<Point, Boolean> mark = new HashMap<>();
         Map<Point, Double> potentiel = new HashMap<>();
-        Map<Point, Point> pere = new HashMap<>();
+        Map<Point, Transition> pere = new HashMap<>();
 
         //initialisation
         initDijkstra(mark, potentiel, pere);
         potentiel.put(a,0.0);
-        pere.put(a, a);
+        pere.put(a, null);
 
         while(!end){
             // recherche du nouveau point a explorer
@@ -104,13 +104,20 @@ public class Station {
                 for(Transition t : transitions.get(courant)){
                     if (potentiel.get(courant) + t.temps() < potentiel.get(t.getArrivee())){
                         potentiel.put(t.getArrivee(), potentiel.get(courant) + t.temps());
-                        pere.put(t.getArrivee(), courant);
+                        pere.put(t.getArrivee(), t);
                     }
                 }
             }
         }
         /* le potentiel minimum entre a et b est stockee dans potentiel b
          */
-        return potentiel.get(b);
+        List<Transition> result = new ArrayList<>();
+        Point tmp = b;
+        while(!pere.get(tmp).equals(a)) {
+            result.add(pere.get(tmp));
+            tmp = pere.get(tmp).getDepart();
+        }
+
+        return result;
     }
 }

@@ -35,16 +35,16 @@ public class Cliqueur extends JFrame {
 		mapView.setSize(hauteurPlan+DELTA,largeurPlan+DELTA);
 		mapView.add(canvas);
 		// construction de l'ensemble
-		setLayout(new GridBagLayout());
+        setLayout(new GridBagLayout());
         GridBagConstraints gbc = new GridBagConstraints();
         gbc.gridx = 0;
         gbc.gridy = 0;
-        gbc.weightx = 0.2;
+        gbc.weightx = 1.0;
         gbc.weighty = 1.0;
         gbc.fill = GridBagConstraints.BOTH;
         add(mapView, gbc);
-		gbc.weightx = 1.0;
-		gbc.weighty = 0.2;
+        gbc.weightx = 1.0;
+        gbc.weighty = 0.0;
         gbc.gridx = 0;
         gbc.gridy = 1;
         add(msgView, gbc);
@@ -57,6 +57,7 @@ public class Cliqueur extends JFrame {
 
 		setTitle("Cliqueur");
 		setSize(700,500);
+		setLocationRelativeTo(null);
 		setVisible(true);
 	}
 	

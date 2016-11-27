@@ -13,12 +13,12 @@ public class Station {
     /**
      * En secondes
      */
-    static final double MAX_WAITING = 10.0;
+    static final double MAX_WAITING = 1800.0;
 
     /**
      * Option sur l'utilisation du temps reel ou non
      */
-    static boolean TEMPS_REEL = false;
+    public static boolean TEMPS_REEL = false;
 
     /**
      * L'ensemble des points de la station
@@ -32,6 +32,14 @@ public class Station {
     public Station(){
         points = new ArrayList<>();
         transitions = new HashMap<>();
+    }
+
+    public Point getPoint(int x, int y) throws NoPointException{
+        for (Point p : points){
+            if (p.getX() == x && p.getY()==y)
+                return p;
+        }
+        throw new NoPointException();
     }
 
     /**
@@ -130,4 +138,6 @@ public class Station {
          */
         return selectTransitions(pere,a,b);
     }
+
+    public class NoPointException extends Exception {}
 }

@@ -5,10 +5,10 @@ import solver.*;
 class Test {
     public static void main(String args[]){
         Station station = new Station();
-        Point a = new Point(1,"a", 100);
-        Point b = new Point(2,"b",200);
-        Point c = new Point(3,"c",300);
-        Point d = new Point(4,"d",200);
+        Point a = new Point(1,"a", 100,1,2);
+        Point b = new Point(2,"b",200,1,3);
+        Point c = new Point(3,"c",300,2,2);
+        Point d = new Point(4,"d",200,2,3);
 
         station.addPoint(a);
         station.addPoint(b);
@@ -20,8 +20,5 @@ class Test {
         station.addTransition(new Descente(3,"piste kamasutra", a,d, TypeDescente.N, 1000));
         station.addTransition(new Descente(4,"piste redon", d,c, TypeDescente.N, 0));
 
-        for (Transition t: station.calculTemps(a, c)){
-            System.out.println(t.getDepart() + " --> " + t.getArrivee());
-        }
     }
 }

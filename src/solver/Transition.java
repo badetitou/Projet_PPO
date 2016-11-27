@@ -35,6 +35,14 @@ public abstract class Transition {
         this.arrivee = arrivee;
     }
 
+    public int getNumero() {
+        return numero;
+    }
+
+    public String getNom() {
+        return nom;
+    }
+
     /**
      *
      * @return le point d'arrivee de la transition
@@ -56,7 +64,7 @@ public abstract class Transition {
      *
      * @return retourne le denivele entre le point de depart et d'arrivee (valeur absolu)
      */
-    protected double denivele() {
+    public double denivele() {
         return Math.abs(depart.getAltitude() - arrivee.getAltitude());
     }
 

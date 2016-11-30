@@ -34,7 +34,7 @@ public class Consol {
     private void menuReel(){
         boolean continu = true;
         while (continu) {
-            System.out.println("Voulez voustraiter le probleme en temps reel (y/n) ?");
+            System.out.println("Voulez vous traiter le probleme en temps reel (y/n) ?");
             String response = scanner.next();
             if (response.equals("y")) {
                 Station.TEMPS_REEL = true;
@@ -95,19 +95,16 @@ public class Consol {
 
 
     private int secureEntryInt(String message, String messageErr){
-        int i = 0;
         String choixI;
-        boolean continu = true;
-        while(continu) {
+        while(true) {
             System.out.print(message);
             choixI = scanner.next();
             try {
-                i = Integer.parseInt(choixI);
+                return Integer.parseInt(choixI);
             } catch( Exception e){
                 System.out.println(messageErr);
             }
         }
-        return i;
     }
 
     private Point secureEntryPoint(Station station){

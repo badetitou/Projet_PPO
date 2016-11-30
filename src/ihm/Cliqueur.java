@@ -3,6 +3,8 @@
 
 package ihm;
 
+import applications.Consol;
+import parseur.CParser;
 import solver.*;
 
 import java.awt.*;
@@ -97,21 +99,12 @@ public class Cliqueur extends JFrame {
 		if (argv.length != 1)
 			System.err.println("usage : java java ihm.Cliqueur fichiermage.jpg");
 		else {
-            Station station = new Station();
-            solver.Point a = new solver.Point(1,"Mont Tempete", 100,1,2);
-            solver.Point b = new solver.Point(2,"Ville Canard",200,1,3);
-            solver.Point c = new solver.Point(3,"Banana Land",300,2,2);
-            solver.Point d = new solver.Point(4,"Hello World",200,2,3);
-
-            station.addPoint(a);
-            station.addPoint(b);
-            station.addPoint(c);
-            station.addPoint(d);
-
-            station.addTransition(new Remontee(1,"remontee canard", a,b, TypeRemontee.TC,100, 100));
-            station.addTransition(new Descente(2,"piste chevreuil", b,c, TypeDescente.B, 100));
-            station.addTransition(new Descente(3,"piste kamasutra", a,d, TypeDescente.N, 1000));
-            station.addTransition(new Descente(4,"piste redon", d,c, TypeDescente.N, 0));
+			Station station = new Station();
+			CParser cparser = new CParser(station);
+			/**
+			 * Chargement de la station
+			 */
+			cparser.run("ressources/station.xml");
 
             Cliqueur w = new Cliqueur(argv[0], station);
 		}

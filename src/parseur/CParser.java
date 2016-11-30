@@ -20,8 +20,7 @@ public class CParser {
     }
      public void run (String path) {
          // Le parseur SAX
-         XMLReader reader
-                 = null;
+         XMLReader reader = null;
          try {
              reader = XMLReaderFactory.createXMLReader("org.apache.xerces.parsers.SAXParser");
          } catch (SAXException e) {
@@ -44,7 +43,9 @@ public class CParser {
          } catch (IOException e) {
              e.printStackTrace();
          } catch (SAXException e) {
-             e.printStackTrace();
+             System.err.println("Fichier XML illisible.");
+             System.exit(1);
+            // e.printStackTrace();
          }
      }
 }

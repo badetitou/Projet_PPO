@@ -311,7 +311,7 @@
 <piste>
 	<numero>13</numero>
 	<nom>cachette</nom>
-	<type>R</>
+	<type>R</type>
 	<depart>21</depart>
 	<arrivee>30</arrivee>
 	<tpsDenivele>180</tpsDenivele>

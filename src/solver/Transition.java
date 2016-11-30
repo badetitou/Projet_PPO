@@ -11,7 +11,7 @@ public abstract class Transition {
     /**
      * nom eventuel de la descente
      */
-    private String nom;
+    protected String nom;
     /**
      * point de depart de la transition
      */

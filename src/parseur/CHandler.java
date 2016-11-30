@@ -18,7 +18,6 @@ public class CHandler implements ContentHandler{
     private int x;
     private int y;
     private double tempsFixe;
-    private double duree;
     private double vitesse;
     private Point arrivee;
     private Point depart;
@@ -70,16 +69,13 @@ public class CHandler implements ContentHandler{
             station.addTransition(new Descente(numero, nom, depart, arrivee, typeDescente, vitesse));
         }
         else if (localName.equals("remontee")){
-            station.addTransition(new Remontee(numero, nom, depart, arrivee, typeRemontee, duree, vitesse));
+            station.addTransition(new Remontee(numero, nom, depart, arrivee, typeRemontee, tempsFixe, vitesse));
         }
         else if(localName.equals("point")){
             station.addPoint(new Point(numero,nom,altitude,x,y));
         }
         else if (localName.equals("navette")){
-            station.addTransition(new Navette (numero, nom, depart, arrivee, typeNavette, duree));
-        }
-        else if (localName.equals("descente")){
-            station.addTransition(new Descente(numero, nom, depart, arrivee, typeDescente, vitesse));
+            station.addTransition(new Navette (numero, nom, depart, arrivee, typeNavette, tempsFixe));
         }
         typeCourant=null;
     }
@@ -119,7 +115,7 @@ public class CHandler implements ContentHandler{
             else if(typeCourant.equals("tpsFixe")){
                 tempsFixe = Double.parseDouble(new String(chars, start, length));
             }
-            else if(typeCourant.equals("tpsDenivelee")){
+            else if(typeCourant.equals("tpsDenivele")){
                 vitesse = Double.parseDouble(new String(chars, start, length));
             }
             else if(typeCourant.equals("type")){

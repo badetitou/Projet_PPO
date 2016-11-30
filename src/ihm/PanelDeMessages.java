@@ -106,7 +106,8 @@ class PanelDeMessages extends JPanel implements MouseListener {
                 for(Transition transition : transitionList) {
                     jTextArea.append("  Transition numero : " + transition.getNumero() + " nom : " + transition.getNom() +
                             " depuis : " + transition.getDepart() + " vers : " + transition.getArrivee()+"\n");
-                    System.out.println(transition.temps());
+                    temps += transition.temps();
+                    System.out.println(transition + " : " + transition.temps());
                     denivele += transition.denivele();
                 }
                 jTextArea.append("Duree du trajet : " + temps + " secondes, soit " + ((int)(temps/3600)) + "h" + ((int) (temps%3600)/60)

@@ -30,13 +30,20 @@ public class Station {
     private Map<Point, List<Transition>> transitions;
 
     public Station(){
-        points = new ArrayList<>();
-        transitions = new HashMap<>();
+        points = new ArrayList<Point>();
+        transitions = new HashMap<Point, List<Transition>>();
     }
 
     public Point getPoint(int x, int y) throws NoPointException{
         for (Point p : points){
             if (p.getX() == x && p.getY()==y)
+                return p;
+        }
+        throw new NoPointException();
+    }
+    public Point getPoint (int ident) throws NoPointException{
+        for (Point p : points){
+            if (p.getNumero() == ident )
                 return p;
         }
         throw new NoPointException();
@@ -101,7 +108,7 @@ public class Station {
     }
 
     private List<Transition> selectTransitions(Map<Point, Transition> pere, Point a, Point b){
-        List<Transition> result = new ArrayList<>();
+        List<Transition> result = new ArrayList<Transition>();
         Point tmp = b;
         while(!pere.get(tmp).getDepart().equals(a)) {
             result.add(0,pere.get(tmp));
@@ -124,9 +131,9 @@ public class Station {
     public List<Transition> calculTemps(Point a, Point b){
         // Declaration
         boolean end = false;
-        Map<Point, Boolean> mark = new HashMap<>();
-        Map<Point, Double> potentiel = new HashMap<>();
-        Map<Point, Transition> pere = new HashMap<>();
+        Map<Point, Boolean> mark = new HashMap<Point, Boolean>();
+        Map<Point, Double> potentiel = new HashMap<Point, Double>();
+        Map<Point, Transition> pere = new HashMap<Point, Transition>();
         //initialisation
         initDijkstra(mark, potentiel, pere);
         potentiel.put(a,0.0);

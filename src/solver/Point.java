@@ -36,6 +36,11 @@ public class Point {
         this.y = y;
     }
 
+    public int getNumero() {
+        return numero;
+    }
+
+
     public int getX() {
         return x;
     }

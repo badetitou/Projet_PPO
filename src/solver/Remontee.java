@@ -36,7 +36,7 @@ public class Remontee extends Transport {
      */
     @Override
     public double temps() {
-        double tempsAttente = 0;
+        double tempsAttente = 0.0;
         if (Station.TEMPS_REEL){
             tempsAttente = Math.random()*Station.MAX_WAITING;
         }

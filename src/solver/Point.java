@@ -49,6 +49,7 @@ public class Point {
         return y;
     }
 
+
     /**
      *
      * @return l'altitude du point

@@ -24,6 +24,7 @@ class PanelDeMessages extends JPanel implements MouseListener {
     private JTextField yview = new JTextField(5);
     private JTextField nomDepart = new JTextField();
     private JTextField nomArrivee = new JTextField();
+    private JTextField nomLieu = new JTextField();
     private JButton setDepart = new JButton("SET DEPART");
     private JButton setArrivee = new JButton("SET ARRIVEE");
     private JCheckBox tempsReel = new JCheckBox("TEMPS REEL");
@@ -45,10 +46,11 @@ class PanelDeMessages extends JPanel implements MouseListener {
         pan.add(new JLabel("Y"));
         pan.add(yview);
         pan.add(new JLabel("NOM LIEU"));
-        pan.add(nomDepart);
+        pan.add(nomLieu);
         pan.add(setDepart);
-        pan.add(nomArrivee);
+        pan.add(nomDepart);
         pan.add(setArrivee);
+        pan.add(nomArrivee);
         pan.add(tempsReel);
         pan.add(valide);
         add(BorderLayout.CENTER, jTextArea);
@@ -61,6 +63,7 @@ class PanelDeMessages extends JPanel implements MouseListener {
         yview.setEditable(false);
         nomDepart.setEditable(false);
         nomArrivee.setEditable(false);
+        nomLieu.setEditable(false);
         jTextArea.setEditable(false);
 
         tempsReel.addActionListener(new ActionListener() {
@@ -105,9 +108,9 @@ class PanelDeMessages extends JPanel implements MouseListener {
 
                 for(Transition transition : transitionList) {
                     jTextArea.append("  Transition numero : " + transition.getNumero() + " nom : " + transition.getNom() +
-                            " depuis : " + transition.getDepart() + " vers : " + transition.getArrivee()+"\n");
+                            " depuis : " + transition.getDepart() + " vers : " + transition.getArrivee()+
+                            " duree : " + transition.temps() + "\n");
                     temps += transition.temps();
-                    System.out.println(transition + " : " + transition.temps());
                     denivele += transition.denivele();
                 }
                 jTextArea.append("Duree du trajet : " + temps + " secondes, soit " + ((int)(temps/3600)) + "h" + ((int) (temps%3600)/60)
@@ -126,6 +129,11 @@ class PanelDeMessages extends JPanel implements MouseListener {
         int y = e.getY()/Cliqueur.DELTA;
         xview.setText(""+x);
         yview.setText(""+y);
+        try {
+            nomLieu.setText(station.getPoint(x,y).toString());
+        } catch (Station.NoPointException e1) {
+            nomLieu.setText("");
+        };
     }
 
     public void mousePressed(MouseEvent e) {

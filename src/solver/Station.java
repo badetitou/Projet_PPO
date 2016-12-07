@@ -41,7 +41,8 @@ public class Station {
         }
         throw new NoPointException();
     }
-    public Point getPoint (int ident) throws NoPointException{
+
+    public Point getPoint (int ident) throws NoPointException {
         for (Point p : points){
             if (p.getNumero() == ident )
                 return p;
@@ -53,27 +54,23 @@ public class Station {
      * Ajoute un point à la station
      * @param p le point à ajouter à la station
      */
-    public void addPoint(Point p){
-        /*if (points.contains(p)) Demander si verification de l'ajout d'un meme point
-            throw*/
-        points.add(p);
-        transitions.put(p, new ArrayList<Transition>());
-    }
-
-    public Transition getTransition(Point p, Point p2){
-        List<Transition> transitionList = transitions.get(p);
-        for (Transition t : transitionList){
-            if (t.getArrivee().equals(p2))
-                return t;
+    public void addPoint(Point p) throws PointAlreadyExistException {
+        if (points.contains(p)) {
+            throw new PointAlreadyExistException();
+        } else {
+            points.add(p);
+            transitions.put(p, new ArrayList<Transition>());
         }
-        return null;
     }
 
     /**
      * Ajoute une transition à la station
      * @param t la transition à ajouter
      */
-    public void addTransition(Transition t){
+    public void addTransition(Transition t) throws NoPointException {
+        if (!points.contains(t.getDepart()) || !points.contains(t.getArrivee()))
+            throw new NoPointException();
+
         transitions.get(t.getDepart()).add(t);
     }
 
@@ -155,5 +152,19 @@ public class Station {
         return selectTransitions(pere,a,b);
     }
 
-    public class NoPointException extends Exception {}
+    public class NoPointException extends Exception {
+        @Override
+        public void printStackTrace(){
+            super.printStackTrace();
+            System.err.println("The point doesn't exist");
+        }
+    }
+
+    public class PointAlreadyExistException extends Exception {
+        @Override
+        public void printStackTrace(){
+            super.printStackTrace();
+            System.err.println("The point already exist");
+        }
+    }
 }

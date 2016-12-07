@@ -10,15 +10,23 @@ class Test {
         Point c = new Point(3,"c",300,2,2);
         Point d = new Point(4,"d",200,2,3);
 
-        station.addPoint(a);
-        station.addPoint(b);
-        station.addPoint(c);
-        station.addPoint(d);
+        try {
+            station.addPoint(a);
+            station.addPoint(b);
+            station.addPoint(c);
+            station.addPoint(d);
+        } catch (Station.PointAlreadyExistException e) {
+            e.printStackTrace();
+        }
 
-        station.addTransition(new Descente(1,"piste canard", a,b, TypeDescente.V, 100));
-        station.addTransition(new Descente(2,"piste chevreuil", b,c, TypeDescente.B, 100));
-        station.addTransition(new Descente(3,"piste kamasutra", a,d, TypeDescente.N, 1000));
-        station.addTransition(new Descente(4,"piste redon", d,c, TypeDescente.N, 0));
+        try {
+            station.addTransition(new Descente(1, "piste canard", a, b, TypeDescente.V, 100));
+            station.addTransition(new Descente(2, "piste chevreuil", b, c, TypeDescente.B, 100));
+            station.addTransition(new Descente(3, "piste kamasutra", a, d, TypeDescente.N, 1000));
+            station.addTransition(new Descente(4, "piste redon", d, c, TypeDescente.N, 0));
+        } catch (Station.NoPointException e){
+            e.printStackTrace();
+        }
 
     }
 }

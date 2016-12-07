@@ -67,16 +67,32 @@ public class CHandler implements ContentHandler{
     public void endElement(String s, String localName, String s2) throws SAXException {
         System.out.println("endElement: "+localName);
         if (localName.equals("piste")){
-            station.addTransition(new Descente(numero, nom, depart, arrivee, typeDescente, vitesse));
+            try {
+                station.addTransition(new Descente(numero, nom, depart, arrivee, typeDescente, vitesse));
+            } catch (Station.NoPointException e){
+                e.printStackTrace();
+            }
         }
         else if (localName.equals("remontee")){
-            station.addTransition(new Remontee(numero, nom, depart, arrivee, typeRemontee, tempsFixe, vitesse));
+            try{
+                station.addTransition(new Remontee(numero, nom, depart, arrivee, typeRemontee, tempsFixe, vitesse));
+            } catch (Station.NoPointException e){
+                e.printStackTrace();
+            }
         }
         else if(localName.equals("point")){
-            station.addPoint(new Point(numero,nom,altitude,x,y));
+            try {
+                station.addPoint(new Point(numero,nom,altitude,x,y));
+            } catch (Station.PointAlreadyExistException e) {
+                e.printStackTrace();
+            }
         }
         else if (localName.equals("navette")){
-            station.addTransition(new Navette (numero, nom, depart, arrivee, typeNavette, tpsTrajet));
+            try {
+                station.addTransition(new Navette(numero, nom, depart, arrivee, typeNavette, tpsTrajet));
+            } catch (Station.NoPointException e){
+                e.printStackTrace();
+            }
         }
         typeCourant=null;
     }

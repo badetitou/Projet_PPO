@@ -74,26 +74,6 @@ public class Consol {
         System.out.println("Cumul des deniveles : " + denivele + "m");
     }
 
-    private void checkTime(Station station){
-        int x,y;
-        int x2,y2;
-        System.out.println("Check cost between two points.");
-        System.out.println("Enter num for point a");
-        x = scanner.nextInt();
-        System.out.println("Enter num for point b");
-        y = scanner.nextInt();
-        try {
-            Point a = station.getPoint(x);
-            Point b = station.getPoint(y);
-            System.out.println(a);
-            System.out.println(b);
-            Transition transition = station.getTransition(a, b);
-            System.out.println(transition.getNom() + " : " + transition.temps());
-        } catch (Station.NoPointException e) {
-            e.printStackTrace();
-        }
-    }
-
     public void start(Station station){
         System.out.println("menu");
         String choix;
@@ -107,8 +87,6 @@ public class Consol {
             }
             else if (choix.equals("2"))
                 continu = false;
-            else if (choix.equals("0"))
-                checkTime(station);
             else
                 System.out.println("Veuillez entrer un nombre valide");
         }

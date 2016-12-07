@@ -63,4 +63,9 @@ public class Point {
     public String toString(){
         return lieu;
     }
+
+    @Override
+    public boolean equals(Object point){
+        return this.numero == ((Point)point).numero;
+    }
 }

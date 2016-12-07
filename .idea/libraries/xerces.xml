@@ -1,9 +1,0 @@
-<component name="libraryTable">
-  <library name="xerces">
-    <CLASSES>
-      <root url="jar:///usr/local/xerces/xerces.jar!/" />
-    </CLASSES>
-    <JAVADOC />
-    <SOURCES />
-  </library>
-</component>

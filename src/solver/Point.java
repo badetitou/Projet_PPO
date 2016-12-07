@@ -9,6 +9,7 @@ public class Point {
      * numero identifie un point de maniere unique
      */
     private int numero;
+
     /**
      * lieu identifie le lieu du point
      */

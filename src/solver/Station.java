@@ -60,6 +60,15 @@ public class Station {
         transitions.put(p, new ArrayList<Transition>());
     }
 
+    public Transition getTransition(Point p, Point p2){
+        List<Transition> transitionList = transitions.get(p);
+        for (Transition t : transitionList){
+            if (t.getArrivee().equals(p2))
+                return t;
+        }
+        return null;
+    }
+
     /**
      * Ajoute une transition à la station
      * @param t la transition à ajouter

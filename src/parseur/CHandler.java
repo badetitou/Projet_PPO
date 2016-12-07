@@ -19,6 +19,7 @@ public class CHandler implements ContentHandler{
     private int y;
     private double tempsFixe;
     private double vitesse;
+    private double tpsTrajet;
     private Point arrivee;
     private Point depart;
     private TypeDescente typeDescente;
@@ -75,7 +76,7 @@ public class CHandler implements ContentHandler{
             station.addPoint(new Point(numero,nom,altitude,x,y));
         }
         else if (localName.equals("navette")){
-            station.addTransition(new Navette (numero, nom, depart, arrivee, typeNavette, tempsFixe));
+            station.addTransition(new Navette (numero, nom, depart, arrivee, typeNavette, tpsTrajet));
         }
         typeCourant=null;
     }
@@ -117,6 +118,8 @@ public class CHandler implements ContentHandler{
             }
             else if(typeCourant.equals("tpsDenivele")){
                 vitesse = Double.parseDouble(new String(chars, start, length));
+            } else if (typeCourant.equals("tpsTrajet")){
+                tpsTrajet = Double.parseDouble(new String(chars, start, length));
             }
             else if(typeCourant.equals("type")){
                 String type = new String (chars, start, length);

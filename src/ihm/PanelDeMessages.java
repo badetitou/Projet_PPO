@@ -100,23 +100,26 @@ class PanelDeMessages extends JPanel implements MouseListener {
         valide.addActionListener(new ActionListener() {
             @Override
             public void actionPerformed(ActionEvent e) {
-                double temps = 0.0;
-                double denivele = 0.0;
-                List<Transition> transitionList = station.calculTemps(depart,arrivee);
-                jTextArea.setText("");
-                jTextArea.append("Plus court chemin entre les points " + depart + " et " + arrivee+"\n");
+                if (depart.equals(arrivee)){
+                    jTextArea.setText("Vous etes deja arrive a destination");
+                } else {
+                    double temps = 0.0;
+                    double denivele = 0.0;
+                    List<Transition> transitionList = station.calculTemps(depart, arrivee);
+                    jTextArea.setText("");
+                    jTextArea.append("Plus court chemin entre les points " + depart + " et " + arrivee + "\n");
 
-                for(Transition transition : transitionList) {
-                    jTextArea.append("  Transition numero : " + transition.getNumero() + " nom : " + transition.getNom() +
-                            " depuis : " + transition.getDepart() + " vers : " + transition.getArrivee()+
-                            " duree : " + transition.temps() + "\n");
-                    temps += transition.temps();
-                    denivele += transition.denivele();
+                    for (Transition transition : transitionList) {
+                        jTextArea.append("  Transition numero : " + transition.getNumero() + " nom : " + transition.getNom() +
+                                " depuis : " + transition.getDepart() + " vers : " + transition.getArrivee() +
+                                " duree : " + transition.temps() + "\n");
+                        temps += transition.temps();
+                        denivele += transition.denivele();
+                    }
+                    jTextArea.append("Duree du trajet : " + temps + " secondes, soit " + ((int) (temps / 3600)) + "h" + ((int) (temps % 3600) / 60)
+                            + "mn" + ((int) (temps % 3600) % 60) + "s\n");
+                    jTextArea.append("Cumul des deniveles : " + denivele + "m");
                 }
-                jTextArea.append("Duree du trajet : " + temps + " secondes, soit " + ((int)(temps/3600)) + "h" + ((int) (temps%3600)/60)
-                        + "mn" + ((int)(temps%3600)%60) + "s\n");
-                jTextArea.append("Cumul des deniveles : " + denivele + "m");
-
             }
         });
     }

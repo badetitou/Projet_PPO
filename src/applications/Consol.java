@@ -54,24 +54,29 @@ public class Consol {
         Point depart =  secureEntryPoint(station);
         System.out.println("Entrez les coordonnees du point d'arrivee");
         Point arrivee = secureEntryPoint(station);
-        afficheResult(station.calculTemps(depart, arrivee), depart, arrivee);
+        if(depart.equals(arrivee)){
+            System.out.println("Vous etes deja arrive a destination");
+        } else {
+            List<Transition> transitions = station.calculTemps(depart, arrivee);
+            afficheResult(transitions, depart, arrivee);
+        }
     }
 
     private void afficheResult(List<Transition> transitions, Point depart, Point arrivee){
         double temps = 0.0;
         double denivele = 0.0;
         System.out.println("Plus court chemin entre les points " + depart +
-                " et " + arrivee +"\n");
-
-        for(Transition transition : transitions) {
+                " et " + arrivee + "\n");
+        for (Transition transition : transitions) {
             System.out.println("Transition numero : " + transition.getNumero() + " nom : " + transition.getNom() +
-                    " depuis : " + transition.getDepart() + " vers : " + transition.getArrivee()+"\n");
+                    " depuis : " + transition.getDepart() + " vers : " + transition.getArrivee() + "\n");
             temps += transition.temps();
             denivele += transition.denivele();
         }
-        System.out.println("Duree du trajet : " + temps + " secondes, soit " + ((int)(temps/3600)) + "h" + ((int) (temps%3600)/60)
-                + "mn" + ((int)(temps%3600)%60) + "s\n");
+        System.out.println("Duree du trajet : " + temps + " secondes, soit " + ((int) (temps / 3600)) + "h" + ((int) (temps % 3600) / 60)
+                + "mn" + ((int) (temps % 3600) % 60) + "s\n");
         System.out.println("Cumul des deniveles : " + denivele + "m");
+
     }
 
     public void start(Station station){

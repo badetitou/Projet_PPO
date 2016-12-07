@@ -87,6 +87,7 @@ public class Station {
             pere.put(p, null);
         }
     }
+
     private void plusCourtChemin(Map<Point, Boolean> mark, Map<Point, Double> potentiel, Map<Point, Transition> pere, boolean end){
         while(!end) {
             Point courant = null;
@@ -113,7 +114,7 @@ public class Station {
         }
     }
 
-    private List<Transition> selectTransitions(Map<Point, Transition> pere, Point a, Point b){
+    private List<Transition> selectTransitions(Map<Point, Transition> pere, Point a, Point b) throws NullPointerException {
         List<Transition> result = new ArrayList<Transition>();
         Point tmp = b;
         while(!pere.get(tmp).getDepart().equals(a)) {
@@ -134,7 +135,10 @@ public class Station {
      * @param b Le point d'arrivee
      * @return le temps pour aller du point a au point b, s'il n'y a pas de chemin entre a et b, la valeur retourner sera Double.MAX_VALUE
      */
-    public List<Transition> calculTemps(Point a, Point b){
+    public List<Transition> calculTemps(Point a, Point b) throws NullPointerException {
+        if(a.equals(b)){
+            return null;
+        }
         // Declaration
         boolean end = false;
         Map<Point, Boolean> mark = new HashMap<Point, Boolean>();

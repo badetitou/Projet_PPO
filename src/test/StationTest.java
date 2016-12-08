@@ -3,9 +3,8 @@ package test;
 import org.junit.jupiter.api.BeforeEach;
 import org.junit.jupiter.api.Test;
 import solver.Point;
+import solver.Solver;
 import solver.Station;
-import solver.Station.PointAlreadyExistException;
-import solver.Station.NoPointException;
 import solver.Transition;
 
 import static org.junit.jupiter.api.Assertions.fail;
@@ -21,7 +20,7 @@ class StationTest {
         try {
             station.addPoint(a);
             station.addPoint(b);
-        } catch (PointAlreadyExistException e) {}
+        } catch (Solver.PointAlreadyExistException e) {}
     }
 
     @Test
@@ -29,10 +28,10 @@ class StationTest {
         try {
             station.getPoint(404,404);
             fail("The point doesn't not exist but we can get it");
-        } catch (NoPointException e){}
+        } catch (Solver.NoPointException e){}
         try {
             station.getPoint(42,42);
-        } catch (NoPointException e){
+        } catch (Solver.NoPointException e){
             fail("The point exist but we cannot get it");
         }
     }
@@ -42,12 +41,12 @@ class StationTest {
         try {
             station.getPoint(404);
             fail("The point doesn't not exist but we can get it");
-        } catch (NoPointException e) {}
+        } catch (Solver.NoPointException e) {}
         Point c;
         try {
             c = station.getPoint(1);
             assert (c.equals(a));
-        } catch (NoPointException e) {
+        } catch (Solver.NoPointException e) {
             fail("The point exist but we cannot get it");
         }
     }
@@ -58,7 +57,7 @@ class StationTest {
         try {
             station.addPoint(b);
             fail("The point already exists but we can add it");
-        } catch (PointAlreadyExistException e){}
+        } catch (Solver.PointAlreadyExistException e){}
     }
 
     @Test
@@ -70,7 +69,7 @@ class StationTest {
                     return 0;
                 }
             });
-        } catch (NoPointException e) {
+        } catch (Solver.NoPointException e) {
             fail("We can add the transition but it failed");
         }
     }
@@ -84,7 +83,7 @@ class StationTest {
                 }
             });
             fail("The arrive point of the transition is null but we can add the transition");
-        } catch (NoPointException e) {
+        } catch (Solver.NoPointException e) {
         }
     }
 
@@ -98,7 +97,7 @@ class StationTest {
                 }
             });
             fail("The start point of the transition is null but we can add the transition");
-        } catch (NoPointException e) {
+        } catch (Solver.NoPointException e) {
         }
     }
 
@@ -112,7 +111,7 @@ class StationTest {
                 }
             });
             fail("Both points of the transition is null but we can add the transition");
-        } catch (NoPointException e){}
+        } catch (Solver.NoPointException e){}
     }
 
 }

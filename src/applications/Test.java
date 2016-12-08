@@ -15,7 +15,7 @@ class Test {
             station.addPoint(b);
             station.addPoint(c);
             station.addPoint(d);
-        } catch (Station.PointAlreadyExistException e) {
+        } catch (Solver.PointAlreadyExistException e) {
             e.printStackTrace();
         }
 
@@ -24,7 +24,7 @@ class Test {
             station.addTransition(new Descente(2, "piste chevreuil", b, c, TypeDescente.B, 100));
             station.addTransition(new Descente(3, "piste kamasutra", a, d, TypeDescente.N, 1000));
             station.addTransition(new Descente(4, "piste redon", d, c, TypeDescente.N, 0));
-        } catch (Station.NoPointException e){
+        } catch (Solver.NoPointException e){
             e.printStackTrace();
         }
 

@@ -69,28 +69,28 @@ public class CHandler implements ContentHandler{
         if (localName.equals("piste")){
             try {
                 station.addTransition(new Descente(numero, nom, depart, arrivee, typeDescente, vitesse));
-            } catch (Station.NoPointException e){
+            } catch (Solver.NoPointException e){
                 e.printStackTrace();
             }
         }
         else if (localName.equals("remontee")){
             try{
                 station.addTransition(new Remontee(numero, nom, depart, arrivee, typeRemontee, tempsFixe, vitesse));
-            } catch (Station.NoPointException e){
+            } catch (Solver.NoPointException e){
                 e.printStackTrace();
             }
         }
         else if(localName.equals("point")){
             try {
                 station.addPoint(new Point(numero,nom,altitude,x,y));
-            } catch (Station.PointAlreadyExistException e) {
+            } catch (Solver.PointAlreadyExistException e) {
                 e.printStackTrace();
             }
         }
         else if (localName.equals("navette")){
             try {
                 station.addTransition(new Navette(numero, nom, depart, arrivee, typeNavette, tpsTrajet));
-            } catch (Station.NoPointException e){
+            } catch (Solver.NoPointException e){
                 e.printStackTrace();
             }
         }
@@ -118,14 +118,14 @@ public class CHandler implements ContentHandler{
             else if(typeCourant.equals("depart")){
                 try {
                     depart = station.getPoint(Integer.parseInt(new String(chars, start, length)));
-                } catch (Station.NoPointException npe){
+                } catch (Solver.NoPointException npe){
                     npe.printStackTrace();
                 }
             }
             else if(typeCourant.equals("arrivee")){
                 try {
                     arrivee = station.getPoint(Integer.parseInt(new String(chars, start, length)));
-                } catch (Station.NoPointException npe){
+                } catch (Solver.NoPointException npe){
                     npe.printStackTrace();
                 }
             }

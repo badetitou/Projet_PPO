@@ -16,6 +16,7 @@ import static org.junit.jupiter.api.Assertions.*;
 class DikjstraTest {
 
     Station station;
+    Solver solver;
     Point a;
     Point b;
     Point c;
@@ -25,74 +26,71 @@ class DikjstraTest {
     @BeforeEach
     void setUp(){
         station = new Station();
+        solver = new Solver<>();
         CParser cParser = new CParser(station);
         cParser.run("ressources/station.xml");
     }
 
     @Test
     void calculTempsExample1() {
-        List<Transition> fastestWay;
         double denivele = 0;
         double time = 0;
         try {
-            fastestWay = station.calculTemps(station.getPoint(36, 14), station.getPoint(21, 9));
-            assertEquals(5, fastestWay.size());
-            for (Transition t : fastestWay){
+            ResultCalculTemps resultCalculTemps = solver.calculTemps(station.getPoint(36, 14), station.getPoint(21, 9), station);
+            assertEquals(5, resultCalculTemps.getTransitionList().size());
+            for (Transition t : resultCalculTemps.getTransitionList()){
                 denivele += t.denivele();
                 time += t.temps();
             }
             assertEquals(1586, denivele);
             assertEquals(2986, (int)time);
-        } catch (Station.NoPointException e){
+        } catch (Solver.NoPointException e){
             fail("The point exist");
         }
     }
 
     @Test
     void calculTempsExample2() {
-        List<Transition> fastestWay;
         double denivele = 0;
         double time = 0;
         try {
-            fastestWay = station.calculTemps(station.getPoint(42, 24), station.getPoint(5, 28));
-            assertEquals(5, fastestWay.size());
-            for (Transition t : fastestWay){
+            ResultCalculTemps resultCalculTemps = solver.calculTemps(station.getPoint(42, 24), station.getPoint(5, 28), station);
+            assertEquals(5, resultCalculTemps.getTransitionList().size());
+            for (Transition t : resultCalculTemps.getTransitionList()){
                 denivele += t.denivele();
                 time += t.temps();
             }
             assertEquals(1835, denivele);
             assertEquals(3590, (int)time);
-        } catch (Station.NoPointException e){
+        } catch (Solver.NoPointException e){
             fail("The point exist");
         }
     }
 
     @Test
     void calculTempsExample3() {
-        List<Transition> fastestWay;
         double denivele = 0;
         double time = 0;
         try {
-            fastestWay = station.calculTemps(station.getPoint(36, 14), station.getPoint(5, 28));
-            assertEquals(6, fastestWay.size());
-            for (Transition t : fastestWay){
+            ResultCalculTemps resultCalculTemps = solver.calculTemps(station.getPoint(36, 14), station.getPoint(5, 28), station);
+            assertEquals(6, resultCalculTemps.getTransitionList().size());
+            for (Transition t : resultCalculTemps.getTransitionList()){
                 denivele += t.denivele();
                 time += t.temps();
             }
             assertEquals(1400, denivele);
             assertEquals(2799, (int)time);
-        } catch (Station.NoPointException e){
+        } catch (Solver.NoPointException e){
             fail("The point exist");
         }
     }
 
     @Test
     void calculTempsSameStartAndArrive(){
-        List<Transition> fastestWay;
         try {
-            fastestWay = station.calculTemps(station.getPoint(36, 14), station.getPoint(36, 14));
-            assertNull(fastestWay);
-        } catch (Station.NoPointException e){
+            ResultCalculTemps resultCalculTemps = solver.calculTemps(station.getPoint(36, 14), station.getPoint(36, 14), station);
+            assertNull(resultCalculTemps.getTransitionList());
+        } catch (Solver.NoPointException e){
             fail("The point exist");
         }
     }
@@ -108,17 +106,21 @@ class DikjstraTest {
                     return 0;
                 }
             });
-        } catch (Station.PointAlreadyExistException e) {
+        } catch (Solver.PointAlreadyExistException e) {
             fail("No problem here");
             e.printStackTrace();
-        } catch (Station.NoPointException e){
+        } catch (Solver.NoPointException e){
             fail("No problem here");
             e.printStackTrace();
         }
         try {
-            station.calculTemps(station.getPoint(1), g);
-            fail("We have to get a Null Pointer Exception");
-        } catch (Station.NoPointException e){
+            ResultCalculTemps resultCalculTemps = solver.calculTemps(station.getPoint(1), g, station);
+            if (resultCalculTemps.getTypeResult() == TypeResult.NoWayFound){
+                assert true;
+            } else {
+                fail("We have to get a Null Pointer Exception");
+            }
+        } catch (Solver.NoPointException e){
             fail("We have to get a Null Pointer Exception");
             e.printStackTrace();
         } catch (NullPointerException e){

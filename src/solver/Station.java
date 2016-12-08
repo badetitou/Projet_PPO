@@ -8,7 +8,7 @@ import java.util.Map;
 /**
  * classe qui represente la station dans son ensemble
  */
-public class Station {
+public class Station extends Graphe {
 
     /**
      * En secondes
@@ -24,6 +24,7 @@ public class Station {
      * L'ensemble des points de la station
      */
     private List<Point> points;
+
     /**
      * L'ensemble des transitions de la station
      */
@@ -34,29 +35,39 @@ public class Station {
         transitions = new HashMap<Point, List<Transition>>();
     }
 
-    public Point getPoint(int x, int y) throws NoPointException{
+    @Override
+    public List<Point> getPoints() {
+        return points;
+    }
+
+    @Override
+    public List<Transition> getTransition(Point point) {
+        return transitions.get(point);
+    }
+
+    public Point getPoint(int x, int y) throws Solver.NoPointException {
         for (Point p : points){
             if (p.getX() == x && p.getY()==y)
                 return p;
         }
-        throw new NoPointException();
+        throw new Solver.NoPointException();
     }
 
-    public Point getPoint (int ident) throws NoPointException {
+    public Point getPoint (int ident) throws Solver.NoPointException {
         for (Point p : points){
             if (p.getNumero() == ident )
                 return p;
         }
-        throw new NoPointException();
+        throw new Solver.NoPointException();
     }
 
     /**
      * Ajoute un point à la station
      * @param p le point à ajouter à la station
      */
-    public void addPoint(Point p) throws PointAlreadyExistException {
+    public void addPoint(Point p) throws Solver.PointAlreadyExistException {
         if (points.contains(p)) {
-            throw new PointAlreadyExistException();
+            throw new Solver.PointAlreadyExistException();
         } else {
             points.add(p);
             transitions.put(p, new ArrayList<Transition>());
@@ -67,108 +78,10 @@ public class Station {
      * Ajoute une transition à la station
      * @param t la transition à ajouter
      */
-    public void addTransition(Transition t) throws NoPointException {
+    public void addTransition(Transition t) throws Solver.NoPointException {
         if (!points.contains(t.getDepart()) || !points.contains(t.getArrivee()))
-            throw new NoPointException();
-
+            throw new Solver.NoPointException();
         transitions.get(t.getDepart()).add(t);
     }
 
-    /**
-     * Initialise les varaibles neccessaire l'algorithme de Dijkstra utilise dans calculTemps
-     * @param mark Map de booleen, initialise a faux
-     * @param potentiel Map de point vers potentiel initialise a Double.MAX_VALUE
-     * @param pere Map de point vers point, initialise a null
-     */
-    private void initDijkstra(Map<Point, Boolean> mark, Map<Point, Double> potentiel, Map<Point, Transition> pere){
-        for (Point p : points) {
-            mark.put(p, false);
-            potentiel.put(p, Double.MAX_VALUE);
-            pere.put(p, null);
-        }
-    }
-
-    private void plusCourtChemin(Map<Point, Boolean> mark, Map<Point, Double> potentiel, Map<Point, Transition> pere, boolean end){
-        while(!end) {
-            Point courant = null;
-            end = true;
-            double potentielCourant = Double.MAX_VALUE;
-            courant = null;
-            for (Point p : points) {
-                if (!mark.get(p) && potentiel.get(p) < potentielCourant) {
-                    courant = p;
-                    potentielCourant = potentiel.get(p);
-                }
-            }
-            // Si nouveau point trouve, recherche des nouveaux potentiels
-            if (courant != null) {
-                end = false;
-                mark.put(courant, true);
-                for (Transition t : transitions.get(courant)) {
-                    if (potentiel.get(courant) + t.temps() < potentiel.get(t.getArrivee())) {
-                        potentiel.put(t.getArrivee(), potentiel.get(courant) + t.temps());
-                        pere.put(t.getArrivee(), t);
-                    }
-                }
-            }
-        }
-    }
-
-    private List<Transition> selectTransitions(Map<Point, Transition> pere, Point a, Point b) throws NullPointerException {
-        List<Transition> result = new ArrayList<Transition>();
-        Point tmp = b;
-        while(!pere.get(tmp).getDepart().equals(a)) {
-            result.add(0,pere.get(tmp));
-            tmp = pere.get(tmp).getDepart();
-        }
-        result.add(0, pere.get(tmp));
-        return result;
-    }
-
-
-
-
-
-    /**
-     * utilise l'algorithme de Dijkstra pour trouver le plus court chemin entre le point a et b
-     * @param a Le point de depart
-     * @param b Le point d'arrivee
-     * @return le temps pour aller du point a au point b, s'il n'y a pas de chemin entre a et b, la valeur retourner sera Double.MAX_VALUE
-     */
-    public List<Transition> calculTemps(Point a, Point b) throws NullPointerException {
-        if(a.equals(b)){
-            return null;
-        }
-        // Declaration
-        boolean end = false;
-        Map<Point, Boolean> mark = new HashMap<Point, Boolean>();
-        Map<Point, Double> potentiel = new HashMap<Point, Double>();
-        Map<Point, Transition> pere = new HashMap<Point, Transition>();
-        //initialisation
-        initDijkstra(mark, potentiel, pere);
-        potentiel.put(a,0.0);
-        pere.put(a, null);
-        // recherche du nouveau point a explorer
-        plusCourtChemin(mark,potentiel,pere,end);
-        /* On cree une liste de transition, qui regroupe de toutes les transition de a vers b
-        Celle-ci est stockée dans result
-         */
-        return selectTransitions(pere,a,b);
-    }
-
-    public class NoPointException extends Exception {
-        @Override
-        public void printStackTrace(){
-            super.printStackTrace();
-            System.err.println("The point doesn't exist");
-        }
-    }
-
-    public class PointAlreadyExistException extends Exception {
-        @Override
-        public void printStackTrace(){
-            super.printStackTrace();
-            System.err.println("The point already exist");
-        }
-    }
 }

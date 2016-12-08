@@ -1,10 +1,7 @@
 package applications;
 
 import parseur.CParser;
-import solver.Point;
-import solver.Remontee;
-import solver.Station;
-import solver.Transition;
+import solver.*;
 
 import java.util.List;
 import java.util.Scanner;
@@ -54,11 +51,15 @@ public class Consol {
         Point depart =  secureEntryPoint(station);
         System.out.println("Entrez les coordonnees du point d'arrivee");
         Point arrivee = secureEntryPoint(station);
-        if(depart.equals(arrivee)){
-            System.out.println("Vous etes deja arrive a destination");
+        Solver solver = new Solver();
+
+        ResultCalculTemps resultCalculTemps = solver.calculTemps(depart, arrivee, station);
+        if (resultCalculTemps.getTypeResult() == TypeResult.NoWayFound){
+            System.out.println("Il n'y a pas de chemin entre les deux points");
+        } else if (resultCalculTemps.getTypeResult() == TypeResult.SamePoints){
+            System.out.println("Vous etes deja arrive");
         } else {
-            List<Transition> transitions = station.calculTemps(depart, arrivee);
-            afficheResult(transitions, depart, arrivee);
+            afficheResult(resultCalculTemps.getTransitionList(), depart, arrivee);
         }
     }
 
@@ -121,7 +122,7 @@ public class Consol {
             y = secureEntryInt("Y : ", "Entrez un nombre correct");
             try {
                 return station.getPoint(x, y);
-            } catch (Station.NoPointException npe) {
+            } catch (Solver.NoPointException npe) {
                 System.out.println("Ce point n'exite pas !!! ");
             }
         }

@@ -1,11 +1,9 @@
 package ihm;
 
-import solver.Station;
+import solver.*;
+import solver.Point;
 
 import javax.swing.*;
-import solver.Point;
-import solver.Transition;
-import solver.Transport;
 
 import java.awt.*;
 import java.awt.event.ActionEvent;
@@ -29,7 +27,7 @@ class PanelDeMessages extends JPanel implements MouseListener {
     private JButton setArrivee = new JButton("SET ARRIVEE");
     private JCheckBox tempsReel = new JCheckBox("TEMPS REEL");
     private JButton valide = new JButton("GO");
-    private JTextArea jTextArea = new JTextArea();
+    private JTextArea messagePanel = new JTextArea();
 
     private Station station;
     private Point depart;
@@ -53,7 +51,7 @@ class PanelDeMessages extends JPanel implements MouseListener {
         pan.add(nomArrivee);
         pan.add(tempsReel);
         pan.add(valide);
-        add(BorderLayout.CENTER, jTextArea);
+        add(BorderLayout.CENTER, messagePanel);
 
         this.station = station;
     }
@@ -64,7 +62,7 @@ class PanelDeMessages extends JPanel implements MouseListener {
         nomDepart.setEditable(false);
         nomArrivee.setEditable(false);
         nomLieu.setEditable(false);
-        jTextArea.setEditable(false);
+        messagePanel.setEditable(false);
 
         tempsReel.addActionListener(new ActionListener() {
             @Override
@@ -79,7 +77,7 @@ class PanelDeMessages extends JPanel implements MouseListener {
                 try {
                     depart = station.getPoint(Integer.parseInt(xview.getText()), Integer.parseInt(yview.getText()));
                     nomDepart.setText(depart.toString());
-                } catch (Station.NoPointException e1){
+                } catch (Solver.NoPointException e1){
                     e1.printStackTrace();
                 }
             }
@@ -91,7 +89,7 @@ class PanelDeMessages extends JPanel implements MouseListener {
                 try {
                     arrivee = station.getPoint(Integer.parseInt(xview.getText()), Integer.parseInt(yview.getText()));
                     nomArrivee.setText(arrivee.toString());
-                } catch (Station.NoPointException e1){
+                } catch (Solver.NoPointException e1){
                     e1.printStackTrace();
                 }
             }
@@ -101,27 +99,47 @@ class PanelDeMessages extends JPanel implements MouseListener {
             @Override
             public void actionPerformed(ActionEvent e) {
                 if (depart.equals(arrivee)){
-                    jTextArea.setText("Vous etes deja arrive a destination");
+                    messagePanel.setText("Vous etes deja arrive a destination");
                 } else {
-                    double temps = 0.0;
-                    double denivele = 0.0;
-                    List<Transition> transitionList = station.calculTemps(depart, arrivee);
-                    jTextArea.setText("");
-                    jTextArea.append("Plus court chemin entre les points " + depart + " et " + arrivee + "\n");
-
-                    for (Transition transition : transitionList) {
-                        jTextArea.append("  Transition numero : " + transition.getNumero() + " nom : " + transition.getNom() +
-                                " depuis : " + transition.getDepart() + " vers : " + transition.getArrivee() +
-                                " duree : " + transition.temps() + "\n");
-                        temps += transition.temps();
-                        denivele += transition.denivele();
+                    Solver solver = new Solver();
+                    ResultCalculTemps resultCalculTemps = solver.calculTemps(depart, arrivee, station);
+                    if(resultCalculTemps.getTypeResult() == TypeResult.NoWayFound){
+                        setResultTextAreaNoWay();
+                    } else if (resultCalculTemps.getTypeResult() == TypeResult.SamePoints){
+                        setResultTextSamePoints();
+                    } else {
+                        setResultTextWayFound(resultCalculTemps.getTransitionList());
                     }
-                    jTextArea.append("Duree du trajet : " + temps + " secondes, soit " + ((int) (temps / 3600)) + "h" + ((int) (temps % 3600) / 60)
-                            + "mn" + ((int) (temps % 3600) % 60) + "s\n");
-                    jTextArea.append("Cumul des deniveles : " + denivele + "m");
                 }
             }
         });
+    }
+
+    private void setResultTextWayFound(List<Transition> transitionList){
+        double temps = 0.0;
+        double denivele = 0.0;
+        messagePanel.setText("");
+        messagePanel.append("Plus court chemin entre les points " + depart + " et " + arrivee + "\n");
+
+        for (Transition transition : transitionList) {
+            messagePanel.append("  Transition numero : " + transition.getNumero() + " nom : " + transition.getNom() +
+                    " depuis : " + transition.getDepart() + " vers : " + transition.getArrivee() +
+                    " duree : " + transition.temps() + "\n");
+            temps += transition.temps();
+            denivele += transition.denivele();
+        }
+        messagePanel.append("Duree du trajet : " + temps + " secondes, soit " + ((int) (temps / 3600)) + "h" + ((int) (temps % 3600) / 60)
+                + "mn" + ((int) (temps % 3600) % 60) + "s\n");
+        messagePanel.append("Cumul des deniveles : " + denivele + "m");
+
+    }
+
+    private void setResultTextSamePoints(){
+        messagePanel.setText("Vous etes deja arrive");
+    }
+
+    private void setResultTextAreaNoWay(){
+        messagePanel.setText("Il n'y a pas de chemin entre les deux points");
     }
 
     // protocole de MouseListener
@@ -134,7 +152,7 @@ class PanelDeMessages extends JPanel implements MouseListener {
         yview.setText(""+y);
         try {
             nomLieu.setText(station.getPoint(x,y).toString());
-        } catch (Station.NoPointException e1) {
+        } catch (Solver.NoPointException e1) {
             nomLieu.setText("");
         };
     }

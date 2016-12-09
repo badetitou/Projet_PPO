@@ -1,18 +1,12 @@
 package test;
 
-import org.junit.jupiter.api.BeforeAll;
 import org.junit.jupiter.api.BeforeEach;
 import org.junit.jupiter.api.Test;
 import parseur.CParser;
 import solver.*;
 
-import java.util.List;
-
 import static org.junit.jupiter.api.Assertions.*;
 
-/**
- * Created by badetitou on 07/12/16.
- */
 class DikjstraTest {
 
     Station station;

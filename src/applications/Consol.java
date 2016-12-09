@@ -70,7 +70,7 @@ public class Consol {
                 " et " + arrivee + "\n");
         for (Transition transition : transitions) {
             System.out.println("Transition numero : " + transition.getNumero() + " nom : " + transition.getNom() +
-                    " depuis : " + transition.getDepart() + " vers : " + transition.getArrivee() + "\n");
+                    " depuis : " + transition.getDepart() + " vers : " + transition.getArrivee() + " cost : " + transition.temps() + " \n");
             temps += transition.temps();
             denivele += transition.denivele();
         }

@@ -7,8 +7,7 @@
     </content>
     <orderEntry type="inheritedJdk" />
     <orderEntry type="sourceFolder" forTests="false" />
-    <orderEntry type="library" name="lib" level="project" />
-    <orderEntry type="module-library" scope="TEST">
+    <orderEntry type="module-library">
       <library name="JUnit5">
         <CLASSES>
           <root url="jar://$MODULE_DIR$/lib/junit-jupiter-api-5.0.0-M2.jar!/" />
@@ -19,10 +18,9 @@
       </library>
     </orderEntry>
     <orderEntry type="module-library">
-      <library name="JUnit5">
+      <library>
         <CLASSES>
-          <root url="jar://$APPLICATION_HOME_DIR$/plugins/junit/lib/junit-jupiter-api-5.0.0-M2.jar!/" />
-          <root url="jar://$APPLICATION_HOME_DIR$/plugins/junit/lib/opentest4j-1.0.0-M1.jar!/" />
+          <root url="jar://$MODULE_DIR$/lib/xerces-2_6_2.jar!/" />
         </CLASSES>
         <JAVADOC />
         <SOURCES />

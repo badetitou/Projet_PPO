@@ -14,7 +14,7 @@ public class Solver {
      * @param pere Map de point vers point, initialise a null
      * @param graphe Le graphe sur lequel on travail
      */
-    private <T extends Graphe> void initDijkstra(Map<Point, Boolean> mark, Map<Point, Double> potentiel, Map<Point, Transition> pere, T graphe){
+    private void initDijkstra(Map<Point, Boolean> mark, Map<Point, Double> potentiel, Map<Point, Transition> pere, Graphe graphe){
         for (Point p : graphe.getPoints()) {
             mark.put(p, false);
             potentiel.put(p, Double.MAX_VALUE);
@@ -22,7 +22,7 @@ public class Solver {
         }
     }
 
-    private <T extends Graphe> void plusCourtChemin(Map<Point, Boolean> mark, Map<Point, Double> potentiel, Map<Point, Transition> pere, boolean end, T graphe){
+    private void plusCourtChemin(Map<Point, Boolean> mark, Map<Point, Double> potentiel, Map<Point, Transition> pere, boolean end, Graphe graphe){
         while(!end) {
             Point courant = null;
             end = true;
@@ -66,7 +66,7 @@ public class Solver {
      * @param b Le point d'arrivee
      * @return le temps pour aller du point a au point b, s'il n'y a pas de chemin entre a et b, la valeur retourner sera Double.MAX_VALUE
      */
-    public <T extends Graphe> ResultCalculTemps calculTemps(Point a, Point b, T graphe) {
+    public ResultCalculTemps calculTemps(Point a, Point b, Graphe graphe) {
         if(a.equals(b)){
             return new ResultCalculTemps(null, TypeResult.SamePoints);
         }

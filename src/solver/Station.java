@@ -8,7 +8,7 @@ import java.util.Map;
 /**
  * classe qui represente la station dans son ensemble
  */
-public class Station extends Graphe {
+public class Station implements Graphe {
 
     /**
      * En secondes

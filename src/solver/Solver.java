@@ -5,17 +5,16 @@ import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
 
-public class Solver <T extends Graphe> {
-
-    T graphe;
+public class Solver {
 
     /**
      * Initialise les varaibles neccessaire l'algorithme de Dijkstra utilise dans calculTemps
      * @param mark Map de booleen, initialise a faux
      * @param potentiel Map de point vers potentiel initialise a Double.MAX_VALUE
      * @param pere Map de point vers point, initialise a null
+     * @param graphe Le graphe sur lequel on travail
      */
-    private void initDijkstra(Map<Point, Boolean> mark, Map<Point, Double> potentiel, Map<Point, Transition> pere){
+    private <T extends Graphe> void initDijkstra(Map<Point, Boolean> mark, Map<Point, Double> potentiel, Map<Point, Transition> pere, T graphe){
         for (Point p : graphe.getPoints()) {
             mark.put(p, false);
             potentiel.put(p, Double.MAX_VALUE);
@@ -23,7 +22,7 @@ public class Solver <T extends Graphe> {
         }
     }
 
-    private void plusCourtChemin(Map<Point, Boolean> mark, Map<Point, Double> potentiel, Map<Point, Transition> pere, boolean end){
+    private <T extends Graphe> void plusCourtChemin(Map<Point, Boolean> mark, Map<Point, Double> potentiel, Map<Point, Transition> pere, boolean end, T graphe){
         while(!end) {
             Point courant = null;
             end = true;
@@ -67,22 +66,21 @@ public class Solver <T extends Graphe> {
      * @param b Le point d'arrivee
      * @return le temps pour aller du point a au point b, s'il n'y a pas de chemin entre a et b, la valeur retourner sera Double.MAX_VALUE
      */
-    public ResultCalculTemps calculTemps(Point a, Point b, T graphe) {
+    public <T extends Graphe> ResultCalculTemps calculTemps(Point a, Point b, T graphe) {
         if(a.equals(b)){
             return new ResultCalculTemps(null, TypeResult.SamePoints);
         }
-        this.graphe = graphe;
         // Declaration
         boolean end = false;
         Map<Point, Boolean> mark = new HashMap<Point, Boolean>();
         Map<Point, Double> potentiel = new HashMap<Point, Double>();
         Map<Point, Transition> pere = new HashMap<Point, Transition>();
         //initialisation
-        initDijkstra(mark, potentiel, pere);
+        initDijkstra(mark, potentiel, pere, graphe);
         potentiel.put(a,0.0);
         pere.put(a, null);
         // recherche du nouveau point a explorer
-        plusCourtChemin(mark,potentiel,pere,end);
+        plusCourtChemin(mark,potentiel,pere,end, graphe);
         /* On cree une liste de transition, qui regroupe de toutes les transition de a vers b
         Celle-ci est stockée dans result
          */

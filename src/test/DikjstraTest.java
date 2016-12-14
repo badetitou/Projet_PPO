@@ -20,7 +20,7 @@ class DikjstraTest {
     @BeforeEach
     void setUp(){
         station = new Station();
-        solver = new Solver<>();
+        solver = new Solver();
         CParser cParser = new CParser(station);
         cParser.run("ressources/station.xml");
     }

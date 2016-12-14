@@ -3,7 +3,6 @@
 
 package ihm;
 
-import applications.Consol;
 import parseur.CParser;
 import solver.*;
 
